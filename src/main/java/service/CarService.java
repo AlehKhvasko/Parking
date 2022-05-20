@@ -1,8 +1,8 @@
 package service;
 
 import model.Car;
-import model.exceptions.AlreadyExist;
-import model.exceptions.NotFound;
+import model.exceptions.AlreadyExistException;
+import model.exceptions.NotFoundException;
 import repository.CarRepository;
 
 import java.util.ArrayList;
@@ -18,7 +18,7 @@ public class CarService {
         boolean exists = false;
             try {
                 if (checkIfExists(car)){
-                    throw new AlreadyExist("Already exist");
+                    throw new AlreadyExistException("Already exist");
                 }else{
                     carRepository.add(car);
                     System.out.println(car + " has been added");
@@ -39,7 +39,7 @@ public class CarService {
             System.out.println(car + " has been deleted");
         }else{
             try {
-                throw new NotFound("such " + car + "doesn't exist");
+                throw new NotFoundException("such " + car + "doesn't exist");
             } catch (Exception notFound) {
                 System.out.println(notFound);;
             }

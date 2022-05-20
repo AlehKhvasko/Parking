@@ -2,14 +2,8 @@ package service;
 
 import model.Car;
 import model.Make;
-import model.exceptions.AlreadyExist;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import repository.CarRepository;
 
