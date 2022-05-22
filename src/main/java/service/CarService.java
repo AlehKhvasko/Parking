@@ -24,16 +24,12 @@ public class CarService {
                 }
         }
 
-    public void delete(Car car){
+    public void delete(Car car) throws NotFoundException {
         if(checkIfExists(car).isPresent()){
             carRepository.delete(car);
             System.out.println(car + " has been deleted");
         }else{
-            try {
                 throw new NotFoundException("such " + car + "doesn't exist");
-            } catch (Exception notFound) {
-                System.out.println(notFound);;
-            }
         }
     }
 
