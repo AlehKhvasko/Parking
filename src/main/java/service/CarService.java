@@ -6,6 +6,7 @@ import model.exceptions.NotFoundException;
 import repository.CarRepository;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 public class CarService {
     private final CarRepository carRepository;
@@ -14,28 +15,18 @@ public class CarService {
         this.carRepository = carRepository;
     }
 
-    public boolean add(Car car){
-        boolean exists = false;
-            try {
-                if (checkIfExists(car)){
+    public void add(Car car) throws AlreadyExistException {
+                if (checkIfExists(car).isPresent()){
                     throw new AlreadyExistException("Already exist");
                 }else{
                     carRepository.add(car);
                     System.out.println(car + " has been added");
-                    exists = true;
                 }
-            }
-            catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
-            return exists;
         }
 
-    public boolean delete(Car car){
-        boolean deleted = false;
-        if(checkIfExists(car)){
+    public void delete(Car car){
+        if(checkIfExists(car).isPresent()){
             carRepository.delete(car);
-            deleted = true;
             System.out.println(car + " has been deleted");
         }else{
             try {
@@ -44,22 +35,19 @@ public class CarService {
                 System.out.println(notFound);;
             }
         }
-        return deleted;
     }
 
     public ArrayList<Car> read(){
         return carRepository.read();
     }
 
-    private boolean checkIfExists(Car car){
-        boolean exists = false;
+    private Optional<Car> checkIfExists(Car car){
         ArrayList<Car> carArrayList = carRepository.read();
             for (Car singleCar:carArrayList) {
-                if (singleCar.getId().equals(car.getId())){
-                   exists = true;
-                   break;
+                if (singleCar.equals(car)){
+                   return Optional.of(singleCar);
                 }
             }
-        return exists;
+            return Optional.empty();
     }
 }

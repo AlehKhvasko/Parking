@@ -31,10 +31,9 @@ public class CarRepository {
 
     }
 
-    public boolean add(Car car) {
+    public void add(Car car) {
         String SQL = "INSERT INTO car( id, make, model) " +
                 "VALUES (?, ?, ?) ";
-
         try (PreparedStatement statement = connection.prepareStatement(SQL)) {
             statement.setLong(1, car.getId());
             statement.setString(2, car.getMake().name());
@@ -43,9 +42,7 @@ public class CarRepository {
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-            return false;
         }
-        return true;
     }
 
     public void delete(Car car){
