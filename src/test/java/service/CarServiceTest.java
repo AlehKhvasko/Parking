@@ -89,5 +89,27 @@ class CarServiceTest {
         assertThrows(NotFoundException.class, ()-> carService.delete(lada));
     }
 
+    @DisplayName("Read method reads DB")
+    @Test
+    void shouldReadDB_whenObjectPresent(){
+        //given
+        ArrayList<Car> carArrayList = new ArrayList<Car>(List.of(audi));
+        //when
+        when(carRepository.read()).thenReturn(carArrayList);
+        //then
+        assertEquals(carArrayList, carService.read());
+    }
 
+    @DisplayName("Read method return empty array")
+    @Test
+    void shouldInvokeReadMethod_whenNoObjectPresent(){
+        //given
+        ArrayList<Car> carArrayList = new ArrayList<Car>();
+        //when
+        when(carRepository.read()).thenReturn(carArrayList);
+        carService.read();
+        //then
+        verify(carRepository, times(1)).read();
+        assertTrue(carService.read().isEmpty());
+    }
 }

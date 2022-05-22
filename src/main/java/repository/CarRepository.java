@@ -15,6 +15,8 @@ public class CarRepository {
     private Connection connection;
 
     public CarRepository() {
+
+        //TODO change absolute path to normal path
         try (InputStream file = new FileInputStream("C:\\Users\\alehk\\IdeaProjects\\Parking\\" +
                         "src\\main\\resources\\config.db\\application.properties");
         ) {
