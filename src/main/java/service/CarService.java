@@ -34,11 +34,11 @@ public class CarService {
     }
 
     public ArrayList<Car> read(){
-        return carRepository.read();
+        return carRepository.readAll();
     }
 
     private Optional<Car> checkIfExists(Car car){
-        ArrayList<Car> carArrayList = carRepository.read();
+        ArrayList<Car> carArrayList = carRepository.readAll();
             for (Car singleCar:carArrayList) {
                 if (singleCar.equals(car)){
                    return Optional.of(singleCar);

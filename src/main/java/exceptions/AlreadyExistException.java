@@ -1,4 +1,4 @@
-package model.exceptions;
+package exceptions;
     public class AlreadyExistException extends Exception {
         public AlreadyExistException(String errorMessage){ super(errorMessage);}
     }
