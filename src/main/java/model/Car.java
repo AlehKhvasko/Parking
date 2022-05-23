@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Objects;
+
 public class Car {
     private final Long id;
     private final Make make;
@@ -28,5 +30,18 @@ public class Car {
 
     public String getModel() {
         return model;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Car car = (Car) o;
+        return Objects.equals(id, car.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

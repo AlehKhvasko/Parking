@@ -1,11 +1,12 @@
 package service;
 
 import model.Car;
-import model.exceptions.AlreadyExist;
-import model.exceptions.NotFound;
+import model.exceptions.AlreadyExistException;
+import model.exceptions.NotFoundException;
 import repository.CarRepository;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 public class CarService {
     private final CarRepository carRepository;
@@ -14,52 +15,35 @@ public class CarService {
         this.carRepository = carRepository;
     }
 
-    public boolean add(Car car){
-        boolean exists = false;
-            try {
-                if (checkIfExists(car)){
-                    throw new AlreadyExist("Already exist");
+    public void add(Car car) throws AlreadyExistException {
+                if (checkIfExists(car).isPresent()){
+                    throw new AlreadyExistException("Already exist");
                 }else{
                     carRepository.add(car);
                     System.out.println(car + " has been added");
-                    exists = true;
                 }
-            }
-            catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
-            return exists;
         }
 
-    public boolean delete(Car car){
-        boolean deleted = false;
-        if(checkIfExists(car)){
+    public void delete(Car car) throws NotFoundException {
+        if(checkIfExists(car).isPresent()){
             carRepository.delete(car);
-            deleted = true;
             System.out.println(car + " has been deleted");
         }else{
-            try {
-                throw new NotFound("such " + car + "doesn't exist");
-            } catch (Exception notFound) {
-                System.out.println(notFound);;
-            }
+                throw new NotFoundException("such " + car + "doesn't exist");
         }
-        return deleted;
     }
 
     public ArrayList<Car> read(){
-        return carRepository.read();
+        return carRepository.readAll();
     }
 
-    private boolean checkIfExists(Car car){
-        boolean exists = false;
-        ArrayList<Car> carArrayList = carRepository.read();
+    private Optional<Car> checkIfExists(Car car){
+        ArrayList<Car> carArrayList = carRepository.readAll();
             for (Car singleCar:carArrayList) {
-                if (singleCar.getId().equals(car.getId())){
-                   exists = true;
-                   break;
+                if (singleCar.equals(car)){
+                   return Optional.of(singleCar);
                 }
             }
-        return exists;
+            return Optional.empty();
     }
 }

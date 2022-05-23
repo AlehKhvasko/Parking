@@ -3,6 +3,7 @@ package repository;
 import com.sun.jdi.Value;
 import model.Car;
 import model.Make;
+import utils.PropertyReader;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -15,12 +16,10 @@ public class CarRepository {
     private Connection connection;
 
     public CarRepository() {
-        try (InputStream file = new FileInputStream("C:\\Users\\alehk\\IdeaProjects\\Parking\\" +
-                        "src\\main\\resources\\config.db\\application.properties");
-        ) {
-            Properties properties = new Properties();
-            properties.load(file);
 
+
+        try {
+            Properties properties = PropertyReader.getProperties();
             String url = properties.getProperty("db.url");
             String user = properties.getProperty("db.user");
             String password = properties.getProperty("db.password");
@@ -31,10 +30,9 @@ public class CarRepository {
 
     }
 
-    public boolean add(Car car) {
+    public void add(Car car) {
         String SQL = "INSERT INTO car( id, make, model) " +
                 "VALUES (?, ?, ?) ";
-
         try (PreparedStatement statement = connection.prepareStatement(SQL)) {
             statement.setLong(1, car.getId());
             statement.setString(2, car.getMake().name());
@@ -43,9 +41,7 @@ public class CarRepository {
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-            return false;
         }
-        return true;
     }
 
     public void delete(Car car){
@@ -59,7 +55,7 @@ public class CarRepository {
         }
     }
 
-    public ArrayList<Car> read(){
+    public ArrayList<Car> readAll(){
         String SQL = " SELECT * FROM car";
         ArrayList<Car> carList = new ArrayList<>();
 
