@@ -17,6 +17,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import service.CarService;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -39,6 +40,7 @@ class CarRepositoryTest {
     //@InjectMocks private CarRepository carRepository;
     @Mock private Connection mockConnection;
     @Mock private Statement mockStatement;
+    @Mock private PreparedStatement mockPreparedStatement;
 
 
     @DisplayName("Add car")
