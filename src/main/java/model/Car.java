@@ -15,9 +15,11 @@ public class Car {
 
     @Override
     public String toString() {
-        return "Car"  + " id = " + id +
-                ", make = " + make +
-                ", model = " + model;
+        return "Car{" +
+                "id=" + id +
+                ", make=" + make +
+                ", model='" + model + '\'' +
+                '}';
     }
 
     public Long getId() {

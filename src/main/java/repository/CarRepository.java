@@ -1,33 +1,18 @@
 package repository;
 
-import com.sun.jdi.Value;
 import model.Car;
 import model.Make;
-import utils.PropertyReader;
 
-import java.io.FileInputStream;
-import java.io.InputStream;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Properties;
+import java.util.Collections;
+import java.util.List;
 
 public class CarRepository {
-    //TODO do we need a connection to be opened the whole time?
-    private Connection connection;
+    private final Connection connection;
 
-    public CarRepository() {
-
-
-        try {
-            Properties properties = PropertyReader.getProperties();
-            String url = properties.getProperty("db.url");
-            String user = properties.getProperty("db.user");
-            String password = properties.getProperty("db.password");
-            connection = DriverManager.getConnection(url, user, password);
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-
+    public CarRepository(Connection connection) {
+        this.connection = connection;
     }
 
     public void add(Car car) {
@@ -44,34 +29,33 @@ public class CarRepository {
         }
     }
 
-    public void delete(Car car){
+    public void delete(Car car) {
         String SQL = "DELETE FROM CAR WHERE id = ?";
-        try(PreparedStatement statement = connection.prepareStatement(SQL)){
+        try (PreparedStatement statement = connection.prepareStatement(SQL)) {
             statement.setLong(1, car.getId());
             statement.execute();
-        }
-        catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public ArrayList<Car> readAll(){
-        String SQL = " SELECT * FROM car";
-        ArrayList<Car> carList = new ArrayList<>();
+    public List<Car> readAll() {
+        String SQL = "SELECT * FROM car";
+        List<Car> carList = new ArrayList<>();
 
-        try(Statement preparedStatement = connection.createStatement()){
+        try (Statement preparedStatement = connection.createStatement()) {
             ResultSet result = preparedStatement.executeQuery(SQL);
 
-            while(result.next()){
+            while (result.next()) {
                 Car car = new Car(
                         result.getLong("id"),
                         Make.valueOf(result.getString("make")),
                         result.getString("model"));
                 carList.add(car);
             }
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
-        return carList;
+        return Collections.unmodifiableList(carList);
     }
 }
