@@ -12,6 +12,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import repository.CarRepository;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,7 +40,7 @@ class CarServiceTest {
     }
 
     @Test
-    void add_shouldAddObject_whenCorrectInput() throws AlreadyExistException, NotFoundException {
+    void add_shouldAddObject_whenCorrectInput() throws AlreadyExistException, NotFoundException, SQLException {
         //given
         ArrayList<Car> carArrayList = new ArrayList<>();
         carArrayList.add(getX5());
@@ -55,7 +56,7 @@ class CarServiceTest {
     }
 
     @Test
-    void add_shouldThrowException_whenCarAlreadyExists() {
+    void add_shouldThrowException_whenCarAlreadyExists() throws SQLException {
         //given
         List<Car> carArrayList = List.of(getQ5(), getX5(), getLada());
         //when
@@ -65,7 +66,7 @@ class CarServiceTest {
     }
 
     @Test
-    void delete_shouldDeleteCar_whenCarExistsInDB() throws NotFoundException {
+    void delete_shouldDeleteCar_whenCarExistsInDB() throws NotFoundException, SQLException {
         //given
         ArrayList<Car> carArrayList = new ArrayList<>(List.of(getQ5(), getX5(), getLada()));
         //when
@@ -76,7 +77,7 @@ class CarServiceTest {
     }
 
     @Test
-    void delete_shouldThrowException_whenCarDoesntExistsInDB() {
+    void delete_shouldThrowException_whenCarDoesntExistsInDB() throws SQLException {
         //given
         ArrayList<Car> carArrayList = new ArrayList<Car>(List.of(getQ5(), getX5()));
         //when
@@ -86,7 +87,7 @@ class CarServiceTest {
     }
 
     @Test
-    void readAll_shouldReadDB_whenObjectPresent() {
+    void readAll_shouldReadDB_whenObjectPresent() throws SQLException {
         //given
         ArrayList<Car> carArrayList = new ArrayList<>(List.of(getQ5()));
         //when
@@ -97,7 +98,7 @@ class CarServiceTest {
     }
 
     @Test
-    void shouldInvokeReadMethod_whenNoObjectPresent() {
+    void shouldInvokeReadMethod_whenNoObjectPresent() throws SQLException {
         //given
         ArrayList<Car> carArrayList = new ArrayList<>();
         //when

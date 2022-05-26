@@ -1,7 +1,4 @@
 import exceptions.AlreadyExistException;
-import model.Car;
-import model.Make;
-import exceptions.AlreadyExistException;
 import repository.CarRepository;
 import service.CarService;
 import utils.PropertyReader;
@@ -25,7 +22,5 @@ public class Main {
         } catch (Exception e) {
             System.out.println(e);
         }
-
-
     }
 }
