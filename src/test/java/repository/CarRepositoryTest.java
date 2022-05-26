@@ -4,7 +4,6 @@ import io.zonky.test.db.postgres.embedded.EmbeddedPostgres;
 import io.zonky.test.db.postgres.embedded.LiquibasePreparer;
 import io.zonky.test.db.postgres.junit.EmbeddedPostgresRules;
 import io.zonky.test.db.postgres.junit.PreparedDbRule;
-import io.zonky.test.db.postgres.junit.SingleInstancePostgresRule;
 import model.Car;
 import model.Make;
 import org.junit.Rule;
@@ -40,5 +39,4 @@ class CarRepositoryTest {
         List<Car> cars = carRepository.readAll();
         Assertions.assertTrue(cars.contains(audi));
     }
-
 }

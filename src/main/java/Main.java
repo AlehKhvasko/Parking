@@ -1,3 +1,4 @@
+import exceptions.AlreadyExistException;
 import model.Car;
 import model.Make;
 import exceptions.AlreadyExistException;
@@ -16,14 +17,9 @@ public class Main {
             String user = properties.getProperty("db.user");
             String password = properties.getProperty("db.password");
 
-            Car car = new Car(3L, Make.Lada, "Sedan");
-            Car car2 = new Car(3L, Make.Lada, "Sedan");
-
             CarService carService = new CarService(
                     new CarRepository(DriverManager.getConnection(url, user, password))
             );
-            carService.add(car);
-            carService.add(car2);
 
             System.out.println(carService.readAll());
         } catch (Exception e) {
